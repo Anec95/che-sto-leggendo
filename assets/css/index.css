@@ -1,0 +1,211 @@
+html {
+    height: 100vh;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    color: rgba(42,42,42,0.8);
+    background-color: #FAFDD6;
+}
+
+header {
+    position: fixed;
+    width: 100vw;
+    height: 10vh;
+    border-bottom: 3px solid rgba(42,42,42,0.8);
+    background-color: #b35e5e;
+}
+
+.header-title {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-size: 50px;
+}
+
+main {
+    padding-top: 10vh;
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+.container {
+    height: 100%;
+}
+
+.left {
+    flex: 1;
+}
+
+.right {
+    flex: 1;
+}
+
+.middle {
+    flex: 3;
+    border: 3px solid rgba(42,42,42,0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.research-div {
+    margin-top: 20px;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid rgba(42,42,42,0.8);
+}
+
+#search-box {
+    font-size: 22px;
+    width: 400px;
+    height: 30px;
+    resize: none;
+}
+
+#research-type,
+.confirm-research {
+    height: 36px;
+    width: 80px;
+}
+
+.research-result {
+    width: 100%;
+    flex: 1;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+width: 10px;
+}
+
+::-webkit-scrollbar-track {
+background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: #555; 
+}
+
+.result-container {
+    border-bottom: 3px solid rgba(42,42,42,0.8);
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.result-container:hover {
+    cursor: pointer;
+}
+
+.result-img {
+    align-self: center;
+    width: 100px;
+    height: 150px;
+    margin: 0 30px;
+}
+
+.result-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.title-result {
+    height: 40px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.description-result {
+    flex: 1;
+}
+
+.quotation {
+    align-self: end;
+    margin-right: 10px;
+    height: 30px;
+}
+
+
+/* DIV THAT SHOWS INFO OF THE SELECTED BOOK */
+.info-container {
+    z-index: 1;
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    top: 8%;
+    left: 10%;
+    border: 3px solid rgba(42,42,42,0.8);
+    border-radius: 10px;
+    background-color: #FAFDD6;
+    display: none;    
+}
+
+.flex-info-cont {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.generic-info {
+    margin: 30px 30px;
+}
+
+.over-img {
+    align-self: start;
+    width: 300px;
+    height: 450px;
+    margin-bottom: 10px;
+}
+
+.quotation-over {
+    text-align: end;    
+    height: 30px;
+}
+
+.fa-times {
+    align-self: end;
+    margin-right: 20px;
+}
+
+.fa-times {
+    cursor: pointer;
+}
+
+.over-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+.title-over {
+    height: 40px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.description-over {
+    height: max-content;
+}
+
