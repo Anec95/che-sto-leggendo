@@ -19,9 +19,11 @@ header {
 
 .header-title {
     margin: 0;
-    padding: 20px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     text-align: center;
-    font-size: 50px;
+    font-size: 70px;
     color: #502020;
 }
 
@@ -193,8 +195,7 @@ background: #555;
     margin-bottom: 10px;
 }
 
-.year-over-over {
-    text-align: end;    
+.year-over {   
     height: 30px;
 }
 
@@ -229,6 +230,3 @@ background: #555;
 .description-over {
     height: max-content;   
 }
-
-
-
