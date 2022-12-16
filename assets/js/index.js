@@ -164,15 +164,15 @@ async function showInfoDiv(book) {
     //if exists, takes the authors of the book and passes to the panel
     if (book.authors) {
         let author = await dataAuthor(book.authors[0].author.key);
-        authorsInfoPanel.innerText = `Author: ${author.name}`;
+        authorsInfoPanel.innerHTML = `<strong>Author:</strong> ${author.name}`;
     } else {
         authorsInfoPanel.innerText = '';
     }  
     //if exists, takes the description of the book and passes to the panel  
     if (typeof book.description === 'object') {
-        descriptionInfoPanel.innerText = book.description.value;
+        descriptionInfoPanel.innerHTML = `<strong>Description:</strong> ${book.description.value}`;
     } else if (typeof book.description === 'string') {
-        descriptionInfoPanel.innerText = book.description;
+        descriptionInfoPanel.innerHTML = `<strong>Description:</strong> ${book.description}`;
     } else if (book.excerpts) {
         descriptionInfoPanel.innerText = book.excerpts[0];
     } else {
@@ -186,13 +186,13 @@ async function showInfoDiv(book) {
     }
     //if exists, takes the year of publication of the book and passes to the panel
     if (book.first_publish_date) {
-        yearInfoPanel.innerText = `First release: ${book.first_publish_date}`;
+        yearInfoPanel.innerHTML = `<strong>First release:</strong> ${book.first_publish_date}`;
     } else {
         yearInfoPanel.innerText = '';
     }
     //if exists, takes the subjects of the book and passes to the panel
     if (book.subjects) {
-        subjectsInfoPanel.innerText = `Subjects: ${book.subjects.join(', ')}`;
+        subjectsInfoPanel.innerHTML = `<strong>Subjects:</strong> ${book.subjects.join(', ')}`;
     } else{
         subjectsInfoPanel.innerText = '';
     }
