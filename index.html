@@ -3,7 +3,8 @@
         <head>
             <meta charset="utf-8"/>
 
-            <title>Che sto leggendo?</title>
+            <title>What am I reading?</title>
+            <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
 
             <meta name="viewport" content="width=device-width, initial-scale= 1.0">
 
@@ -14,18 +15,20 @@
 
         <body id="body">
             <header>
-                <p class="header-title">Che sto leggendo?</p>
+                <p class="header-title">What am I reading?</p>
             </header>
             <div class="info-container">
                 <div class="flex-info-cont">
                     <div class="generic-info">
-                        <img class="over-img" src="./assets/images/IMG_20220808_191905_436.jpg">
-                        <div class="quotation-over"></div>
+                        <img class="over-img">
+                        <div class="year-over"></div>
                     </div>                
                     <div class="over-info">
                         <i class="fa fa-times"></i>
-                        <div class="title-over"></div>
-                        <div class="description-over"></div>
+                        <div class="info title-over"></div>
+                        <div class="info authors-over"></div>
+                        <div class="info description-over"></div>
+                        <div class="info subjects-over"></div>
                     </div> 
                 </div>                
             </div>
@@ -39,19 +42,19 @@
                             <option value="author">Author</option>
                             <option value="title">Title</option>
                         </select>
-                        <input  type="text" id="search-box" placeholder="Cosa stai cercando?">
+                        <input  type="text" id="search-box" placeholder="What are you looking for?">
                         <input type="submit" class="confirm-research" value="Confirm">
                     </form>
-                    <div class="research-results">
+                    <!-- <div class="research-results"> -->
                         <!-- <div class="result-container">
                             <img class="result-img" src="./assets/images/IMG_20220808_191905_436.jpg">
                             <div class="result-info">
                                 <div class="title-result">Alice nel paese delle meraviglie</div>
                                 <div class="description-result">Alice è soltanto una ragazzina. Vive nel...</div>
-                                <div class="quotation">5/5</div>
+                                <div class="number-page">5/5</div>
                             </div>                            
                         </div> -->
-                    </div>
+                    <!-- </div> -->
                 </div>
                 <div class="right container"></div>
             </main>
