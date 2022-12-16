@@ -1,12 +1,14 @@
-// import { getData } from './request.js';
-
 let closeButton = document.getElementsByClassName('fa-times')[0];
 let infoContainer = document.getElementsByClassName('info-container')[0];
-let researchPool = document.getElementsByClassName('research-results')[0];
+// let researchPool = document.getElementsByClassName('research-results')[0];
 let titlePanelInfo = document.getElementsByClassName('over-info')[0];
 let titleResult = document.getElementsByClassName('title-result');
 let titleInfoPanel = document.getElementsByClassName('title-over')[0];
+let authorsInfoPanel = document.getElementsByClassName('authors-over')[0];
 let descriptionInfoPanel = document.getElementsByClassName('description-over')[0];
+let imgInfoPanel = document.getElementsByClassName('over-img')[0];
+let yearInfoPanel = document.getElementsByClassName('year-over')[0];
+let subjectsInfoPanel = document.getElementsByClassName('subjects-over')[0];
 let middleContainer = document.getElementsByClassName('middle')[0];
 
 function closeInfoDiv() {
@@ -37,7 +39,7 @@ async function researchSubmit(event) {
         research = '';
         textArea.value = '';
 
-        newBookParagraph(result)
+        newBooksResearch(result)
     } catch(error) {
         console.log(error);
     }
@@ -47,26 +49,38 @@ textArea.onchange = researchText;
 selectType.onchange = typeResearch;
 researchForm.onsubmit = researchSubmit;
 
-function newBookParagraph(result) {
+function newBooksResearch(result) {
     console.log(result)
     console.log(result.docs.length)
-    // if (newResearchContainer){
-    //     middleContainer.removeChild(newResearchContainer);
-    // }
-    for (let i=0; i<result.docs.length; i++) {
-        // let newResearchContainer = document.createElement('div');
-        // middleContainer.appendChild(newResearchContainer);
-        // newResearchContainer.setAttribute('class', 'research-results');
+    if (document.getElementsByClassName('research-results')[0]){
+        middleContainer.removeChild(document.getElementsByClassName('research-results')[0]);
+        let researchPool = document.createElement('div');
+        middleContainer.appendChild(researchPool);
+        researchPool.setAttribute('class', 'research-results');
+        newBook(researchPool, result)
+    } else {
+        let researchPool = document.createElement('div');
+        middleContainer.appendChild(researchPool);
+        researchPool.setAttribute('class', 'research-results');
+        newBook(researchPool, result)
+    }    
+}
 
+function newBook(researchPool, result) {
+    for (let i=0; i<result.docs.length; i++) {
         let newBook = document.createElement('div');
         researchPool.appendChild(newBook);
         newBook.setAttribute('class', 'result-container');
-        newBook.addEventListener('click', () => {bookClick(result.docs[i].key)})
+        newBook.addEventListener('click', () => {bookClick(result.docs[i].key)});
 
         let newBookImg = document.createElement('img');
         newBook.appendChild(newBookImg);
         newBookImg.setAttribute('class', 'result-img');
-        newBookImg.src = './assets/images/IMG_20220808_191905_436.jpg';
+        if (result.docs[i].cover_i) {
+            newBookImg.src = `https://covers.openlibrary.org/b/id/${result.docs[i].cover_i}-L.jpg`;
+        } else {
+            newBookImg.src = './assets/images/book.png';
+        }    
 
         let newBookGenericInfo = document.createElement('div');
         newBook.appendChild(newBookGenericInfo);
@@ -75,17 +89,26 @@ function newBookParagraph(result) {
         let newBookTitle = document.createElement('div');
         newBookGenericInfo.appendChild(newBookTitle);
         newBookTitle.setAttribute('class', 'title-result');
-        newBookTitle.innerText = result.docs[i].title;
+        newBookTitle.innerText = `${result.docs[i].title} - ${result.docs[i].author_name[0]}`;
 
-        let newBookDescription = document.createElement('div');
-        newBookGenericInfo.appendChild(newBookDescription);
-        newBookDescription.setAttribute('class', 'description-result');
-
-        let newBookQuotation = document.createElement('div');
-        newBookGenericInfo.appendChild(newBookQuotation);
-        newBookQuotation.setAttribute('class', 'quotation');
+        let newBookFirstSentence = document.createElement('div');
+        newBookGenericInfo.appendChild(newBookFirstSentence);
+        newBookFirstSentence.setAttribute('class', 'description-result');
+        if (result.docs[i].first_sentence) {
+            newBookFirstSentence.innerText = result.docs[i].first_sentence;
+        } else {
+            newBookFirstSentence.innerText = '';
+        }
+        
+        let newBookPageNumber = document.createElement('div');
+        newBookGenericInfo.appendChild(newBookPageNumber);
+        newBookPageNumber.setAttribute('class', 'number-page');
+        if (result.docs[i].number_of_pages_median) {
+            newBookPageNumber.innerText = `Number of pages ${result.docs[i].number_of_pages_median}`;
+        } else {
+            newBookPageNumber.innerText = '';
+        }
     }
-    
 }
 
 async function getData(researchType, researchValue) {
@@ -115,27 +138,70 @@ async function getData(researchType, researchValue) {
 async function dataBook(keyBook) {
     try{
         let response = await fetch(`https://openlibrary.org${keyBook}.json`);
-        let dataBook = await response.json();
-        console.log(dataBook);
-        return dataBook;
+        let infoBook = await response.json();
+        console.log(infoBook);
+        return infoBook;
     } catch(error){
         throw new Error(error.message);
     }
 }
 
-function showInfoDiv(book) {
-    titleInfoPanel.innerText = book.title;   
-    if (book.description) {
+async function dataAuthor(keyAuthor) {
+    try{
+        let response = await fetch(`https://openlibrary.org${keyAuthor}.json`);
+        let infoAuthor = await response.json();
+        console.log(infoAuthor);
+        return infoAuthor;
+    } catch(error){
+        throw new Error(error.message);
+    }
+}
+
+//shows the panel with the info of the book
+async function showInfoDiv(book) {
+    //takes the title of the book and passes to the panel
+    titleInfoPanel.innerText = book.title;
+    //if exists, takes the authors of the book and passes to the panel
+    if (book.authors) {
+        let author = await dataAuthor(book.authors[0].author.key);
+        authorsInfoPanel.innerText = `Author: ${author.name}`;
+    } else {
+        authorsInfoPanel.innerText = '';
+    }  
+    //if exists, takes the description of the book and passes to the panel  
+    if (typeof book.description === 'object') {
+        descriptionInfoPanel.innerText = book.description.value;
+    } else if (typeof book.description === 'string') {
         descriptionInfoPanel.innerText = book.description;
+    } else if (book.excerpts) {
+        descriptionInfoPanel.innerText = book.excerpts[0];
     } else {
         descriptionInfoPanel.innerText = "Description's book is not available";
+    }
+    //if exists, takes the cover of the book and passes to the panel
+    if (book.covers) {
+        imgInfoPanel.src = `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`;
+    } else {
+        imgInfoPanel.src = "./assets/images/book.png";
+    }
+    //if exists, takes the year of publication of the book and passes to the panel
+    if (book.first_publish_date) {
+        yearInfoPanel.innerText = `First release: ${book.first_publish_date}`;
+    } else {
+        yearInfoPanel.innerText = '';
+    }
+    //if exists, takes the subjects of the book and passes to the panel
+    if (book.subjects) {
+        subjectsInfoPanel.innerText = `Subjects: ${book.subjects.join(', ')}`;
+    } else{
+        subjectsInfoPanel.innerText = '';
     }
     infoContainer.style.display = 'block';
 }
 
 async function bookClick(key) {
     try {
-        let book = await dataBook(key);        
+        let book = await dataBook(key);
         showInfoDiv(book)
     } catch(error){
         throw new Error(error.message);
