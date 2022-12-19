@@ -94,6 +94,11 @@ main {
     border-radius: 0 8px 8px 0;
 }
 
+#research-type:hover,
+.confirm-research {
+    cursor: pointer;
+}
+
 .research-results {
     width: 100%;
     flex: 1;
@@ -199,9 +204,13 @@ background: #555;
     height: 30px;
 }
 
+.closing-div {
+    text-align: end;
+}
+
 .fa-times {
-    align-self: end;
-    margin-right: 40px;
+    margin-top: 20px;
+    margin-right: 20px;
 }
 
 .fa-times:hover {

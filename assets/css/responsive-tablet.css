@@ -100,10 +100,6 @@
     
     .fa-times {
         font-size: 22px;
-        position: relative;
-        top: -315px;
-        align-self: end;
-        margin-right: 10px;
     }
     
     .over-info {
@@ -119,6 +115,7 @@
     }
     
     .title-over {
+        margin-top: 15px;
         height: max-content;
         font-size: 30px;
         font-weight: bold;
