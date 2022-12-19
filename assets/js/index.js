@@ -1,6 +1,5 @@
 let closeButton = document.getElementsByClassName('fa-times')[0];
 let infoContainer = document.getElementsByClassName('info-container')[0];
-// let researchPool = document.getElementsByClassName('research-results')[0];
 let titlePanelInfo = document.getElementsByClassName('over-info')[0];
 let titleResult = document.getElementsByClassName('title-result');
 let titleInfoPanel = document.getElementsByClassName('title-over')[0];
@@ -66,6 +65,7 @@ function newBooksResearch(result) {
     }    
 }
 
+//create the book div with img/title/author/n. of pages
 function newBook(researchPool, result) {
     for (let i=0; i<result.docs.length; i++) {
         let newBook = document.createElement('div');
@@ -135,6 +135,7 @@ async function getData(researchType, researchValue) {
     }
 }
 
+//it takes the data's book when you click on one of them in the research pool
 async function dataBook(keyBook) {
     try{
         let response = await fetch(`https://openlibrary.org${keyBook}.json`);
@@ -146,6 +147,7 @@ async function dataBook(keyBook) {
     }
 }
 
+//it takes the data's author when you click on one of book shown in the research pool
 async function dataAuthor(keyAuthor) {
     try{
         let response = await fetch(`https://openlibrary.org${keyAuthor}.json`);
