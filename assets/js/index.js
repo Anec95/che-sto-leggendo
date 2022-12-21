@@ -1,14 +1,15 @@
-let closeButton = document.getElementsByClassName('fa-times')[0];
-let infoContainer = document.getElementsByClassName('info-container')[0];
-let titlePanelInfo = document.getElementsByClassName('over-info')[0];
-let titleResult = document.getElementsByClassName('title-result');
-let titleInfoPanel = document.getElementsByClassName('title-over')[0];
-let authorsInfoPanel = document.getElementsByClassName('authors-over')[0];
-let descriptionInfoPanel = document.getElementsByClassName('description-over')[0];
-let imgInfoPanel = document.getElementsByClassName('over-img')[0];
-let yearInfoPanel = document.getElementsByClassName('year-over')[0];
-let subjectsInfoPanel = document.getElementsByClassName('subjects-over')[0];
-let middleContainer = document.getElementsByClassName('middle')[0];
+const closeButton = document.getElementsByClassName('fa-times')[0];
+const infoContainer = document.getElementsByClassName('info-container')[0];
+const titlePanelInfo = document.getElementsByClassName('over-info')[0];
+const titleResult = document.getElementsByClassName('title-result');
+const titleInfoPanel = document.getElementsByClassName('title-over')[0];
+const authorsInfoPanel = document.getElementsByClassName('authors-over')[0];
+const descriptionInfoPanel = document.getElementsByClassName('description-over')[0];
+const imgInfoPanel = document.getElementsByClassName('over-img')[0];
+const yearInfoPanel = document.getElementsByClassName('year-over')[0];
+const subjectsInfoPanel = document.getElementsByClassName('subjects-over')[0];
+const middleContainer = document.getElementsByClassName('middle')[0];
+const loadingDiv = document.getElementsByClassName('loading-container')[0];
 
 function closeInfoDiv() {
     infoContainer.style.display = 'none';
@@ -34,35 +35,43 @@ function researchText(event) {
 async function researchSubmit(event) {
     event.preventDefault();
     try {
+        // for empty text box research
+        if (research === '') {
+            throw new Error("Text area can't be empty")
+        }
+
+        if (document.getElementsByClassName('research-results')[0]){
+            middleContainer.removeChild(document.getElementsByClassName('research-results')[0]);
+        } 
+        //if research starts
+        loadingDiv.style.display = 'block';
+
         const result = await getData(type, research);
         research = '';
         textArea.value = '';
+        if (result.docs.length === 0) {
+            throw new Error('The search returned no results')
+        }
 
+        loadingDiv.style.display = 'none';
+        
         newBooksResearch(result)
     } catch(error) {
-        console.log(error);
-    }
+        loadingDiv.style.display = 'none';
+        alert(error.message)
+        // console.log(error);        
+    }   
 }
 
 textArea.onchange = researchText;
 selectType.onchange = typeResearch;
 researchForm.onsubmit = researchSubmit;
 
-function newBooksResearch(result) {
-    console.log(result)
-    console.log(result.docs.length)
-    if (document.getElementsByClassName('research-results')[0]){
-        middleContainer.removeChild(document.getElementsByClassName('research-results')[0]);
-        let researchPool = document.createElement('div');
-        middleContainer.appendChild(researchPool);
-        researchPool.setAttribute('class', 'research-results');
-        newBook(researchPool, result)
-    } else {
-        let researchPool = document.createElement('div');
-        middleContainer.appendChild(researchPool);
-        researchPool.setAttribute('class', 'research-results');
-        newBook(researchPool, result)
-    }    
+function newBooksResearch(result) {      
+    let researchPool = document.createElement('div');
+    middleContainer.appendChild(researchPool);
+    researchPool.setAttribute('class', 'research-results');
+    newBook(researchPool, result) 
 }
 
 //create the book div with img/title/author/n. of pages
@@ -89,7 +98,11 @@ function newBook(researchPool, result) {
         let newBookTitle = document.createElement('div');
         newBookGenericInfo.appendChild(newBookTitle);
         newBookTitle.setAttribute('class', 'title-result');
-        newBookTitle.innerText = `${result.docs[i].title} - ${result.docs[i].author_name[0]}`;
+        if (result.docs[i].title && result.docs[i].author_name) {
+            newBookTitle.innerText = `${result.docs[i].title} - ${result.docs[i].author_name[0]}`;
+        } else if (result.docs[i].title) {
+            newBookTitle.innerText = `${result.docs[i].title} - Unknown`;
+        }
 
         let newBookFirstSentence = document.createElement('div');
         newBookGenericInfo.appendChild(newBookFirstSentence);
@@ -140,7 +153,7 @@ async function dataBook(keyBook) {
     try{
         let response = await fetch(`https://openlibrary.org${keyBook}.json`);
         let infoBook = await response.json();
-        console.log(infoBook);
+        // console.log(infoBook);
         return infoBook;
     } catch(error){
         throw new Error(error.message);
@@ -152,7 +165,7 @@ async function dataAuthor(keyAuthor) {
     try{
         let response = await fetch(`https://openlibrary.org${keyAuthor}.json`);
         let infoAuthor = await response.json();
-        console.log(infoAuthor);
+        // console.log(infoAuthor);
         return infoAuthor;
     } catch(error){
         throw new Error(error.message);
@@ -206,7 +219,7 @@ async function bookClick(key) {
         let book = await dataBook(key);
         showInfoDiv(book)
     } catch(error){
-        throw new Error(error.message);
+        alert("Book's data not available")
     }
 }
 
