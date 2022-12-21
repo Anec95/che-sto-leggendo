@@ -12,12 +12,13 @@ body {
 header {
     position: fixed;
     width: 100vw;
-    height: 10vh;
+    height: 12vh;
     border-bottom: 3px solid rgba(42,42,42,0.8);
     background-color: #b35e5e;
 }
 
 .header-title {
+    font-family: 'Chivo Mono', sans-serif;
     margin: 0;
     position: relative;
     top: 50%;
@@ -128,6 +129,68 @@ background: #555;
     min-height: 200px;
     display: flex;
     justify-content: space-around;
+}
+
+.loading-container {
+    width: 100%;
+    display: none;
+}
+
+.loading-base {
+    position: relative;
+    margin: 100px auto;
+    rotate: 45deg;
+    width: 60px;
+    height: 60px;
+}
+
+.loading-square {
+    position: absolute;
+    width: 45%;
+    height: 45%;
+    background-color: #5e6236;
+}
+
+.one {
+    animation: mouvement 3s ease infinite;
+}
+
+.two {
+    animation: mouvement 3s ease infinite;
+    animation-delay: 0.75s;
+}
+
+.three {
+    animation: mouvement 3s ease infinite;
+    animation-delay: 1.5s;
+}
+
+.fourth {
+    animation: mouvement 3s ease infinite;
+    animation-delay: 2.25s;
+}
+
+/* .two {
+    animation: mouvement 3s ease infinite;
+    animation-delay: 1.2s;
+}
+
+.three {
+    animation: mouvement 3s ease infinite;
+    animation-delay: 4.5s;
+}
+
+.fourth {
+    animation: mouvement 3s ease infinite;
+    animation-delay: 5.7s;
+} */
+
+@keyframes mouvement {
+    0% {top: 0; left: 0;}
+    25% {top: 0; left: 30px;}
+    50% {top: 30px; left: 30px;}
+    75% {top: 30px; left: 0;}
+    100% {top: 0; left: 0;}
 }
 
 .result-container:hover {
